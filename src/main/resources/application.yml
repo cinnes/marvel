@@ -1,0 +1,13 @@
+app:
+  base-url: "https://gateway.marvel.com/v1/public"
+  public-key: "7b0e55f6a4544e6f2165a9359dabeb27"
+  private-key: "8ec4e3d8cb93baaf0d005526c14c07ae8717cc78"
+  page-limit: 100
+
+spring:
+  r2dbc:
+    url: r2dbc:h2:mem:///test?options=DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    name: root
+    password:
+  codec:
+    max-in-memory-size: 1MB
