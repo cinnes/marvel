@@ -7,17 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "app")
+@Getter
+@Setter
 public class AppProperties {
-    @Getter
-    @Setter
     private String baseUrl;
-    @Getter
-    @Setter
     private String publicKey;
-    @Getter
-    @Setter
     private String privateKey;
-    @Getter
-    @Setter
     private int pageLimit;
 }
