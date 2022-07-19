@@ -21,7 +21,6 @@ public class MarvelClientConfiguration {
 
     private String ts = "1";
 
-
     @Bean
     public WebClient marvelClient(WebClient.Builder webClientBuilder) {
         return webClientBuilder
