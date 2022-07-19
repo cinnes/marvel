@@ -19,9 +19,6 @@ public class MarvelClientConfiguration {
     @Autowired
     private AppProperties appProperties;
 
-    // TODO: cinnes: necessary to make ts vary?
-    private String ts = "1";
-
     @Bean
     public WebClient marvelClient(WebClient.Builder webClientBuilder) {
         return webClientBuilder
@@ -32,11 +29,12 @@ public class MarvelClientConfiguration {
     }
 
     private UriComponentsBuilder uriComponentsBuilder() {
+        final String timestamp = String.valueOf(System.currentTimeMillis());
         return UriComponentsBuilder
                 .fromHttpUrl(appProperties.getBaseUrl())
                 .queryParam("limit", appProperties.getPageLimit())
-                .queryParam("ts", ts)
+                .queryParam("ts", timestamp)
                 .queryParam("apikey", appProperties.getPublicKey())
-                .queryParam("hash", Md5Utils.hash(ts + appProperties.getPrivateKey() + appProperties.getPublicKey()));
+                .queryParam("hash", Md5Utils.hash(timestamp + appProperties.getPrivateKey() + appProperties.getPublicKey()));
     }
 }

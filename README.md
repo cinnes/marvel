@@ -16,7 +16,6 @@
 - Boot up required containers (redis) `docker compose up -d` 
 
 ## TODO
-- Investigate `ts` and whether it should vary or not
 - Config environments
 - Translation support
 - Ensure swagger output is correct
