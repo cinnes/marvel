@@ -15,7 +15,6 @@
 Do the docker commands and stuff lmfao
 
 ## TODO
-- Consider whether h2 in memory db is appropriate for storing pre-loaded data
 - Investigate `ts` and whether it should vary or not
 - Config environments
 - Translation support
