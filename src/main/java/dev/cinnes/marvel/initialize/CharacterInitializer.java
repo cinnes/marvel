@@ -21,10 +21,11 @@ public class CharacterInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        log.info("Pre-loading characters");
         characterRepository.deleteAll()
                 .thenMany(characterService.findAll())
                 .flatMap(characterRepository::save)
-                .thenMany(characterRepository.findAll())
-                .subscribe(character -> log.info("Inserted Character[{}]", character.getId()));
+                .then(characterRepository.findAll().collectList())
+                .subscribe(characters -> log.info("Pre-loaded {} Characters", characters.size()));
     }
 }
