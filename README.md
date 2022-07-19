@@ -12,7 +12,6 @@
 ## Docker
 - Boot up required containers (redis) `docker compose up -d`
 
-
 ## Commands
 - `mvn spring-boot:run` - run server
 - `mvn test` - test cases
