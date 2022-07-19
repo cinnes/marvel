@@ -16,16 +16,16 @@ import reactor.core.publisher.Mono;
 public class CharacterController {
 
     @Autowired
-    private CharacterRepository characterRepository;
+    private CharacterRepository characterService;
 
     @GetMapping
     public Flux<Integer> listAllIds() {
-        return characterRepository.findAll().map(MarvelCharacter::getId);
+        return characterService.findAll().map(MarvelCharacter::getId);
     }
 
     @GetMapping("/{characterId}")
     public Mono<ResponseEntity<MarvelCharacter>> show(@PathVariable Integer characterId) {
-        return characterRepository
+        return characterService
                 .findById(characterId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());

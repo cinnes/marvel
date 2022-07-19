@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class CharacterService {
+public class MarvelApiService {
 
     @Autowired
     private WebClient marvelClient;
