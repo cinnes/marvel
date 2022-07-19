@@ -68,7 +68,7 @@
 			<version>${swagger.version}</version>
 		</dependency>
 
-		<!-- Other -->
+		<!-- Reactive FTW -->
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
