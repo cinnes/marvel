@@ -19,18 +19,18 @@ public class CharacterService {
     private final String PATH = "/characters";
 
     public Flux<MarvelCharacter> findAll() {
-        return fetchItems(PATH)
+        return fetch(PATH)
                 .expand(res -> {
                     if (res.getData().hasMore()) {
                         var offset = res.getData().nextOffset();
-                        return fetchItems(String.format("%s?offset=%d", PATH, offset));
+                        return fetch(String.format("%s?offset=%d", PATH, offset));
                     } else {
                         return Mono.empty();
                     }
                 }).flatMap(res -> Flux.fromIterable(res.getData().getResults()));
     }
 
-    private Mono<ListCharactersResponse> fetchItems(String url) {
+    private Mono<ListCharactersResponse> fetch(String url) {
         return marvelClient
                 .get()
                 .uri(url)
