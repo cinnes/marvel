@@ -21,10 +21,11 @@
 - Ensure swagger output is correct
 - Unit tests
 - Use github secrets variables for keys
-- Github actions for CI
-- Dockerfile?
 - Javadoc comments
 - Compare to open source projects to learn if I can make things more idiomatic
 - Fill out this readme
 - Tweak `spring.codec.max-in-memory-size` to a bit more than how much 100 rows of character info is
 - Some other stuff but I forgot
+
+## Future improvements
+- CI/CD
