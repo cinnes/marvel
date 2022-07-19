@@ -19,6 +19,7 @@ public class MarvelClientConfiguration {
     @Autowired
     private AppProperties appProperties;
 
+    // TODO: cinnes: necessary to make ts vary?
     private String ts = "1";
 
     @Bean
