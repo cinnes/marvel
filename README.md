@@ -18,6 +18,7 @@
 - Translation support
 - Ensure swagger output is correct
 - Unit tests
+- Use github secrets variables for keys
 - Github actions for CI
 - Dockerfile?
 - Javadoc comments

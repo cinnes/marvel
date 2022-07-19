@@ -18,6 +18,7 @@ public class CharacterService {
 
     private final String PATH = "/characters";
 
+    // TODO: cinnes: possible to optimise by getting `total` from first result and not recursing to utilise multiple threads
     public Flux<MarvelCharacter> findAll() {
         return fetch(PATH)
                 .expand(res -> {
