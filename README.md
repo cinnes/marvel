@@ -9,11 +9,13 @@
 - Swagger
 - Redis
 
-## Commands
-- `mvn spring-boot:run` - run
-
 ## Docker
-- Boot up required containers (redis) `docker compose up -d` 
+- Boot up required containers (redis) `docker compose up -d`
+
+
+## Commands
+- `mvn spring-boot:run` - run server
+- `mvn test` - test cases
 
 ## TODO
 - Config environments
