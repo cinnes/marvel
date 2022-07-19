@@ -16,11 +16,14 @@ public class CharacterService {
     @Autowired
     private WebClient marvelClient;
 
+    private final String PATH = "/characters";
+
     public Flux<MarvelCharacter> findAll() {
-        return fetchItems("/characters")
+        return fetchItems(PATH)
                 .expand(res -> {
                     if (res.getData().hasMore()) {
-                        return fetchItems(res.getData().nextPage());
+                        var offset = res.getData().nextOffset();
+                        return fetchItems(String.format("%s?offset=%d", PATH, offset));
                     } else {
                         return Mono.empty();
                     }

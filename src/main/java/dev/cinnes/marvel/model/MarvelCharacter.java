@@ -21,6 +21,7 @@ public class MarvelCharacter implements Persistable<Integer> {
     // always overwrite
     @Override
     @Transient
+    @JsonIgnore
     public boolean isNew() {
         return true;
     }

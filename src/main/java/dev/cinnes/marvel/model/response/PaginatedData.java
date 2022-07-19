@@ -15,12 +15,11 @@ public class PaginatedData {
     private int count;
     private List<MarvelCharacter> results;
 
-    @Transient
     public Boolean hasMore() {
         return this.count == this.limit;
     }
 
-    public String nextPage() {
-        return "/characters?offset=" + (this.offset + limit);
+    public int nextOffset() {
+        return this.offset + limit;
     }
 }
