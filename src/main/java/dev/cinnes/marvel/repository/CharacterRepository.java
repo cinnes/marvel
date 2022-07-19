@@ -30,6 +30,7 @@ public class CharacterRepository {
     }
 
     private Mono<Long> saveToList(MarvelCharacter character) {
+        // NOTE: could technically just cache ids here, would be a bit more optimal. left as is for brevity.
         return characterOps.opsForList().rightPush("characters", character);
     }
 

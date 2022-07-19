@@ -18,7 +18,7 @@ public class MarvelApiService {
 
     private final String PATH = "/characters";
 
-    // TODO: cinnes: possible to optimise by getting `total` from first result and not recursing to utilise multiple threads
+    // TODO: cinnes: possible to optimise by getting `total` from first result and creating a Flux.range rather then recursing via expand
     public Flux<MarvelCharacter> findAll() {
         return fetch(PATH)
                 .expand(res -> {
