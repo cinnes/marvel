@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("!init")
+@Profile("!test")
 @Slf4j
 public class CharacterInitializer implements CommandLineRunner {
 
