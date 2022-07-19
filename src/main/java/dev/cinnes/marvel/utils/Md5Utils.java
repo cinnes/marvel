@@ -1,20 +1,15 @@
 package dev.cinnes.marvel.utils;
 
+import lombok.SneakyThrows;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Md5Utils {
+    @SneakyThrows(NoSuchAlgorithmException.class)
     public static String hash(String str) {
-
-        MessageDigest digest;
-
-        try {
-            digest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException ex) {
-            throw new IllegalArgumentException("WTF");
-        }
-
+        var digest = MessageDigest.getInstance("MD5");
         return bytesToHex(digest.digest(str.getBytes(StandardCharsets.UTF_8)));
     }
 
