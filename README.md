@@ -7,12 +7,13 @@
 - WebFlux
 - Lombok
 - Swagger
+- Redis
 
 ## Commands
 - `mvn spring-boot:run` - run
 
 ## Docker
-Do the docker commands and stuff lmfao
+- Boot up required containers (redis) `docker compose up -d` 
 
 ## TODO
 - Investigate `ts` and whether it should vary or not
