@@ -12,4 +12,9 @@ app:
   private-key: ${MARVEL_API_PRIVATE_KEY}
   page-limit: 100
 
+springdoc:
+  version: '@springdoc.version@'
+  api-docs.path: '/api-docs'
+  swagger-ui.path: '/api-ui'
+
 #logging.level.dev.cinnes.marvel: debug

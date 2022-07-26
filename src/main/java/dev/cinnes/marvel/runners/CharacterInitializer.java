@@ -25,14 +25,14 @@ public class CharacterInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        connectionFactory
-                .getReactiveConnection()
-                .serverCommands()
-                .flushAll()
-                .thenMany(marvelApiService.findAll())
-                .flatMap(c -> characterRepository.save(c, Constants.DEFAULT_LANGUAGE))
-                .doOnSubscribe(sub ->  log.info("Loading test data..."))
-                .doOnComplete(() -> log.info("Test data loaded!"))
-                .subscribe();
+//        connectionFactory
+//                .getReactiveConnection()
+//                .serverCommands()
+//                .flushAll()
+//                .thenMany(marvelApiService.findAll())
+//                .flatMap(c -> characterRepository.save(c, Constants.DEFAULT_LANGUAGE))
+//                .doOnSubscribe(sub ->  log.info("Loading test data..."))
+//                .doOnComplete(() -> log.info("Test data loaded!"))
+//                .subscribe();
     }
 }

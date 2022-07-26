@@ -3,6 +3,8 @@ package dev.cinnes.marvel.repository;
 import dev.cinnes.marvel.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
 import dev.cinnes.marvel.service.GoogleTranslateService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
@@ -31,7 +33,10 @@ public class CharacterRepository {
                 .thenReturn(character);
     }
 
-    public Mono<MarvelCharacter> findById(final int id, final String language) {
+    public Mono<MarvelCharacter> findById(
+            @Parameter(in = ParameterIn.PATH) final int id,
+            @Parameter(in = ParameterIn.QUERY) final String language) {
+
         return characterOps
                 .opsForValue()
                 .get(key(id, language))

@@ -1,8 +1,11 @@
 package dev.cinnes.marvel.controller;
 
 import dev.cinnes.marvel.Constants;
+import dev.cinnes.marvel.exception.ErrorResponse;
 import dev.cinnes.marvel.model.MarvelCharacter;
 import dev.cinnes.marvel.repository.CharacterRepository;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,25 +13,44 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
+import java.util.Locale;
+
 @RestController
 @RequestMapping(value = "/characters", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/characters")
 @RequiredArgsConstructor
 public class CharacterController {
 
     private final CharacterRepository characterRepository;
 
-    @GetMapping
+    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "fetch all Character ids") })
     public Flux<Integer> listAllIds() {
         return characterRepository.findAll().map(MarvelCharacter::id);
     }
 
-    @GetMapping("/{characterId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "show Character"),
+            @ApiResponse(responseCode = "404", description = "Character not found"),
+    })
     public Mono<ResponseEntity<MarvelCharacter>> show(
             @PathVariable int characterId,
             @RequestParam(defaultValue = Constants.DEFAULT_LANGUAGE) String language) {
-        return characterRepository
-                .findById(characterId, language)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+
+        if (!isValidLanguage(language)) {
+            return Mono.just(
+                    ResponseEntity
+                            .badRequest()
+                            .body(new ErrorResponse("asd")));
+        } else {
+            return characterRepository
+                    .findById(characterId, language)
+                    .map(ResponseEntity::ok)
+                    .defaultIfEmpty(ResponseEntity.notFound().build());
+        }
+    }
+
+    private boolean isValidLanguage(final String language) {
+        return Arrays.stream(Locale.getISOLanguages()).toList().contains(language);
     }
 }
