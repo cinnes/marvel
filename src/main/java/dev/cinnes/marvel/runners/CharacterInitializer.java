@@ -1,5 +1,6 @@
 package dev.cinnes.marvel.runners;
 
+import dev.cinnes.marvel.Constants;
 import dev.cinnes.marvel.repository.CharacterRepository;
 import dev.cinnes.marvel.service.MarvelApiService;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +25,14 @@ public class CharacterInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        // TODO: possible to reduce load time? bulk save?
-//        connectionFactory
-//                .getReactiveConnection()
-//                .serverCommands()
-//                .flushAll()
-//                .thenMany(marvelApiService.findAll())
-//                .flatMap(c -> characterRepository.save(c, Constants.DEFAULT_LANGUAGE))
-//                .doOnSubscribe(sub ->  log.info("Loading test data..."))
-//                .doOnComplete(() -> log.info("Test data loaded!"))
-//                .subscribe();
+        connectionFactory
+                .getReactiveConnection()
+                .serverCommands()
+                .flushAll()
+                .thenMany(marvelApiService.findAll())
+                .flatMap(c -> characterRepository.save(c, Constants.DEFAULT_LANGUAGE))
+                .doOnSubscribe(sub ->  log.info("Loading test data..."))
+                .doOnComplete(() -> log.info("Test data loaded!"))
+                .subscribe();
     }
 }
