@@ -2,8 +2,8 @@ package dev.cinnes.marvel.service;
 
 import dev.cinnes.marvel.model.MarvelCharacter;
 import dev.cinnes.marvel.model.response.ListCharactersResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -11,24 +11,37 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MarvelApiService {
 
-    @Autowired
-    private WebClient marvelClient;
+    private final WebClient marvelClient;
 
     private final String PATH = "/characters";
 
-    // TODO: cinnes: possible to optimise by getting `total` from first result and creating a Flux.range rather then recursing via expand
+    /**
+     * Fetches all Marvel characters from the Marvel API. This (as of writing) sends ~11 requests, so call sparingly.
+     *
+     * Uses the `total` value returned on the first page of results to determine how many pages to fetch, then spins
+     * the fetches off into a Flux.
+     *
+     * @return Stream of Marvel characters (`MarvelCharacter`).
+     */
     public Flux<MarvelCharacter> findAll() {
-        return fetch(PATH)
-                .expand(res -> {
-                    if (res.getData().hasMore()) {
-                        var offset = res.getData().nextOffset();
+        // fetch first page to get `total`, then process remaining pages in parallel
+        return fetch(PATH).flatMapMany(res -> {
+            final var data = res.data();
+
+            Flux<ListCharactersResponse> responses = Flux
+                    .range(1, data.total() / data.count()) // page numbers
+                    .flatMap(i -> {
+                        final var offset = i * data.count();
                         return fetch(String.format("%s?offset=%d", PATH, offset));
-                    } else {
-                        return Mono.empty();
-                    }
-                }).flatMap(res -> Flux.fromIterable(res.getData().getResults()));
+                    });
+
+            return Flux
+                    .concat(Mono.just(res), responses)
+                    .flatMapIterable(r -> r.data().results());
+        });
     }
 
     private Mono<ListCharactersResponse> fetch(String url) {

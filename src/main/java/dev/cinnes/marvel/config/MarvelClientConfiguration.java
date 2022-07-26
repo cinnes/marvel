@@ -1,27 +1,24 @@
 package dev.cinnes.marvel.config;
 
 import dev.cinnes.marvel.utils.Md5Utils;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Configuration
+@RequiredArgsConstructor
 public class MarvelClientConfiguration {
 
-    @Autowired
-    private AppProperties appProperties;
+    private final AppProperties appProperties;
 
     @Bean
-    public WebClient marvelClient(WebClient.Builder webClientBuilder) {
-        return webClientBuilder
+    public WebClient marvelClient(WebClient.Builder builder) {
+        return builder
                 .baseUrl(appProperties.getBaseUrl())
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .uriBuilderFactory(new DefaultUriBuilderFactory(uriComponentsBuilder()))
@@ -29,7 +26,7 @@ public class MarvelClientConfiguration {
     }
 
     private UriComponentsBuilder uriComponentsBuilder() {
-        final String timestamp = String.valueOf(System.currentTimeMillis());
+        final var timestamp = String.valueOf(System.currentTimeMillis());
         return UriComponentsBuilder
                 .fromHttpUrl(appProperties.getBaseUrl())
                 .queryParam("limit", appProperties.getPageLimit())

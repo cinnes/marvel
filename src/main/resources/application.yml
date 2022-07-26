@@ -11,3 +11,5 @@ app:
   public-key: ${MARVEL_API_PUBLIC_KEY}
   private-key: ${MARVEL_API_PRIVATE_KEY}
   page-limit: 100
+
+#logging.level.dev.cinnes.marvel: debug

@@ -1,8 +1,10 @@
 package dev.cinnes.marvel.repository;
 
+import dev.cinnes.marvel.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
+import dev.cinnes.marvel.service.GoogleTranslateService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -10,35 +12,53 @@ import reactor.core.publisher.Mono;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class CharacterRepository {
-    @Autowired
-    private ReactiveRedisOperations<String, MarvelCharacter> characterOps;
 
-    public Mono<Void> save(MarvelCharacter character) {
+    // data stored as:
+    // languageCode#id
+    // e.g, en#1234
+
+    private final ReactiveRedisOperations<String, MarvelCharacter> characterOps;
+
+    private final GoogleTranslateService googleTranslateService;
+
+    public Mono<MarvelCharacter> save(final MarvelCharacter character, final String language) {
+        log.debug("Saving {} with language {}.", character, language);
         return characterOps
                 .opsForValue()
-                .set(key(character), character)
-                .and(this.saveToList(character));
+                .set(key(character, language), character)
+                .thenReturn(character);
     }
 
-    public Mono<MarvelCharacter> findById(final Integer id) {
-        return characterOps.opsForValue().get(key(id));
+    public Mono<MarvelCharacter> findById(final int id, final String language) {
+        return characterOps
+                .opsForValue()
+                .get(key(id, language))
+                // defer switch to avoid eager evaluation of alternative
+                .switchIfEmpty(Mono.defer(() -> this.translateAndSave(id, language)));
     }
 
     public Flux<MarvelCharacter> findAll() {
-        return characterOps.opsForList().range("characters", 0, -1);
+        return characterOps.keys("en*").flatMap(characterOps.opsForValue()::get);
     }
 
-    private Mono<Long> saveToList(MarvelCharacter character) {
-        // NOTE: could technically just cache ids here, would be a bit more optimal. left as is for brevity.
-        return characterOps.opsForList().rightPush("characters", character);
+    private Mono<MarvelCharacter> translateAndSave(final int id, final String language) {
+        return characterOps
+                .opsForValue()
+                // get EN version
+                .get(key(id, Constants.DEFAULT_LANGUAGE))
+                // fetch translation
+                .flatMap(c -> googleTranslateService.translate(c, language))
+                // cache translation
+                .flatMap(c -> this.save(c, language));
     }
 
-    private String key(MarvelCharacter character) {
-        return key(character.getId());
+    private String key(final MarvelCharacter character, final String language) {
+        return key(character.id(), language);
     }
 
-    private String key(final Integer id) {
-        return "character#" + id;
+    private String key(final int id, final String language) {
+        return language + "#" + id;
     }
 }

@@ -1,32 +1,33 @@
 package dev.cinnes.marvel.controller;
 
+import dev.cinnes.marvel.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
 import dev.cinnes.marvel.repository.CharacterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/characters")
+@RequestMapping(value = "/characters", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class CharacterController {
 
-    @Autowired
-    private CharacterRepository characterService;
+    private final CharacterRepository characterRepository;
 
     @GetMapping
     public Flux<Integer> listAllIds() {
-        return characterService.findAll().map(MarvelCharacter::getId);
+        return characterRepository.findAll().map(MarvelCharacter::id);
     }
 
     @GetMapping("/{characterId}")
-    public Mono<ResponseEntity<MarvelCharacter>> show(@PathVariable Integer characterId) {
-        return characterService
-                .findById(characterId)
+    public Mono<ResponseEntity<MarvelCharacter>> show(
+            @PathVariable int characterId,
+            @RequestParam(defaultValue = Constants.DEFAULT_LANGUAGE) String language) {
+        return characterRepository
+                .findById(characterId, language)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
