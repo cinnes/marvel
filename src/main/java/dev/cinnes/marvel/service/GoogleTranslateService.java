@@ -4,13 +4,18 @@ import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import dev.cinnes.marvel.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class GoogleTranslateService {
+
+//    private final Translate translate;
+
     /**
      * Translates a Marvel character from English (en) to a given language. Currently translates description only as
      * per spec. This method is immutable and will return a new instance.
@@ -30,7 +35,6 @@ public class GoogleTranslateService {
                                     Translate.TranslateOption.targetLanguage(language),
                                     Translate.TranslateOption.format("text")); // default is html encoded
 
-                    // scala .copy method making it to java record when? :^)
                     return MarvelCharacter
                             .builder()
                             .id(character.id())
