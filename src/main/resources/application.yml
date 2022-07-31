@@ -1,4 +1,5 @@
 spring:
+  cloud.gcp.secretmanager.enabled: true
   redis:
     host: localhost
     password: password
