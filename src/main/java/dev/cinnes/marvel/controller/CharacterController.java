@@ -1,6 +1,5 @@
 package dev.cinnes.marvel.controller;
 
-import dev.cinnes.marvel.model.Language;
 import dev.cinnes.marvel.utils.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
 import dev.cinnes.marvel.repository.CharacterRepository;

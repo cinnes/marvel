@@ -1,6 +1,6 @@
 package dev.cinnes.marvel.repository;
 
-import dev.cinnes.marvel.Constants;
+import dev.cinnes.marvel.utils.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
 import dev.cinnes.marvel.service.GoogleTranslateService;
 import io.swagger.v3.oas.annotations.Parameter;

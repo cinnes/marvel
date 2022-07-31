@@ -1,6 +1,6 @@
 package dev.cinnes.marvel.runners;
 
-import dev.cinnes.marvel.Constants;
+import dev.cinnes.marvel.utils.Constants;
 import dev.cinnes.marvel.repository.CharacterRepository;
 import dev.cinnes.marvel.service.MarvelApiService;
 import lombok.RequiredArgsConstructor;

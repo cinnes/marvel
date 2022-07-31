@@ -2,7 +2,7 @@ package dev.cinnes.marvel.service;
 
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
-import dev.cinnes.marvel.Constants;
+import dev.cinnes.marvel.utils.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
