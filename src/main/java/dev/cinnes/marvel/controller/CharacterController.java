@@ -35,7 +35,7 @@ public class CharacterController {
             @RequestParam(defaultValue = Constants.DEFAULT_LANGUAGE) String language) {
 
         return characterRepository
-                .findById(characterId, language)
+                .findById(characterId, language.toLowerCase())
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
