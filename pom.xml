@@ -45,9 +45,6 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- DB -->
-
-
 		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -80,7 +77,6 @@
 			<groupId>com.google.cloud</groupId>
 			<artifactId>google-cloud-translate</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<dependencyManagement>
