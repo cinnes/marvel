@@ -1,10 +1,11 @@
-package dev.cinnes.marvel.runners;
+package dev.cinnes.marvel;
 
 import dev.cinnes.marvel.utils.Constants;
 import dev.cinnes.marvel.repository.CharacterRepository;
 import dev.cinnes.marvel.service.MarvelApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -23,16 +24,21 @@ public class CharacterInitializer implements ApplicationRunner {
 
     private final ReactiveRedisConnectionFactory connectionFactory;
 
+    @Value("${app.initialize-data}")
+    private boolean initializeData;
+
     @Override
     public void run(ApplicationArguments args) {
-        connectionFactory
-                .getReactiveConnection()
-                .serverCommands()
-                .flushAll()
-                .thenMany(marvelApiService.findAll())
-                .flatMap(c -> characterRepository.save(c, Constants.DEFAULT_LANGUAGE))
-                .doOnSubscribe(sub ->  log.info("Loading test data..."))
-                .doOnComplete(() -> log.info("Test data loaded!"))
-                .subscribe();
+        if (initializeData) {
+            connectionFactory
+                    .getReactiveConnection()
+                    .serverCommands()
+                    .flushAll()
+                    .thenMany(marvelApiService.findAll())
+                    .flatMap(c -> characterRepository.save(c, Constants.DEFAULT_LANGUAGE))
+                    .doOnSubscribe(sub ->  log.info("Loading test data..."))
+                    .doOnComplete(() -> log.info("Test data loaded!"))
+                    .subscribe();
+        }
     }
 }

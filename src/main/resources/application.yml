@@ -7,11 +7,13 @@ spring:
   codec:
     max-in-memory-size: 1MB
 
-marvel-api:
-  base-url: 'https://gateway.marvel.com/v1/public'
-  public-key: ${MARVEL_API_PUBLIC_KEY}
-  private-key: ${MARVEL_API_PRIVATE_KEY}
-  page-limit: 100
+app:
+  initialize-data: true
+  marvel-api:
+    base-url: 'https://gateway.marvel.com/v1/public'
+    public-key: ${sm://marvel-api-public-key}
+    private-key: ${sm://marvel-api-private-key}
+    page-limit: 100
 
 springdoc:
   version: '@springdoc.version@'

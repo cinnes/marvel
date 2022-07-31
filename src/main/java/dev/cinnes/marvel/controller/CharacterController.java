@@ -19,7 +19,7 @@ public class CharacterController {
 
     private final CharacterRepository characterRepository;
 
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Fetch all MarvelCharacter ids.")})
+    @ApiResponse(responseCode = "200", description = "Fetch all MarvelCharacter ids.")
     @GetMapping
     public Flux<Integer> listAllIds() {
         return characterRepository.findAll().map(MarvelCharacter::id);
