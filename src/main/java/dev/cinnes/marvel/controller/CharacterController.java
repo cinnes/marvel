@@ -27,7 +27,7 @@ public class CharacterController {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "show Character"),
-            @ApiResponse(responseCode = "404", description = "Character not found"),
+            @ApiResponse(responseCode = "404", description = "Character not found")
     })
     @GetMapping("/{characterId}")
     public Mono<ResponseEntity<MarvelCharacter>> show(
