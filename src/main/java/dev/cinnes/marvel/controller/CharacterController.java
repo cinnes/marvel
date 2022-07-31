@@ -1,6 +1,7 @@
 package dev.cinnes.marvel.controller;
 
-import dev.cinnes.marvel.Constants;
+import dev.cinnes.marvel.model.Language;
+import dev.cinnes.marvel.utils.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
 import dev.cinnes.marvel.repository.CharacterRepository;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,15 +20,15 @@ public class CharacterController {
 
     private final CharacterRepository characterRepository;
 
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "fetch all Character ids")})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Fetch all MarvelCharacter ids.")})
     @GetMapping
     public Flux<Integer> listAllIds() {
         return characterRepository.findAll().map(MarvelCharacter::id);
     }
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "show Character"),
-            @ApiResponse(responseCode = "404", description = "Character not found")
+            @ApiResponse(responseCode = "200", description = "Show a specific MarvelCharacter"),
+            @ApiResponse(responseCode = "404", description = "MarvelCharacter not found.")
     })
     @GetMapping("/{characterId}")
     public Mono<ResponseEntity<MarvelCharacter>> show(

@@ -7,14 +7,15 @@ spring:
     max-in-memory-size: 1MB
 
 marvel-api:
-  base-url: "https://gateway.marvel.com/v1/public"
+  base-url: 'https://gateway.marvel.com/v1/public'
   public-key: ${MARVEL_API_PUBLIC_KEY}
   private-key: ${MARVEL_API_PRIVATE_KEY}
   page-limit: 100
 
 springdoc:
   version: '@springdoc.version@'
-  api-docs.path: '/api-docs'
-  swagger-ui.path: '/api-ui'
+  api-docs.path: /api-docs
+  swagger-ui.path: /api-ui
+  paths-to-match: /characters/**
 
 #logging.level.dev.cinnes.marvel: debug
