@@ -1,5 +1,6 @@
 package dev.cinnes.marvel.controller;
 
+import dev.cinnes.marvel.annotations.ValidLanguage;
 import dev.cinnes.marvel.utils.Constants;
 import dev.cinnes.marvel.model.MarvelCharacter;
 import dev.cinnes.marvel.repository.CharacterRepository;
@@ -8,10 +9,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Validated
 @RestController
 @RequestMapping(value = "/characters", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
@@ -32,7 +35,7 @@ public class CharacterController {
     @GetMapping("/{characterId}")
     public Mono<ResponseEntity<MarvelCharacter>> show(
             @PathVariable int characterId,
-            @RequestParam(defaultValue = Constants.DEFAULT_LANGUAGE) String language) {
+            @ValidLanguage @RequestParam(defaultValue = Constants.DEFAULT_LANGUAGE) String language) {
 
         return characterRepository
                 .findById(characterId, language.toLowerCase())

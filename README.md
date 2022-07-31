@@ -30,7 +30,7 @@
 2. Marvel Private Key `echo -n "<your-private-key>" | gcloud secrets create marvel-api-public-key --data-file=-`
 
 ### Boot up local redis instance
-Ensure port 6379 is free, then run `docker compose up -d`.
+`docker compose up -d`.
 
 ## Notes
 - You can tweak the `app.initialize-data` config to turn off data initialization, by default it will flush all & reload on bootup.

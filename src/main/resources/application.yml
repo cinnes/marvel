@@ -8,12 +8,14 @@ spring:
     max-in-memory-size: 1MB
 
 app:
-  initialize-data: true
+  initialize-data: false
+  supported-languages: en,es,it,fr,de
   marvel-api:
     base-url: 'https://gateway.marvel.com/v1/public'
     public-key: ${sm://marvel-api-public-key}
     private-key: ${sm://marvel-api-private-key}
     page-limit: 100
+
 
 springdoc:
   version: '@springdoc.version@'
