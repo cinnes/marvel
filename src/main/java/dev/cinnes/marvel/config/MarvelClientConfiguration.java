@@ -14,12 +14,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class MarvelClientConfiguration {
 
-    private final AppProperties appProperties;
+    private final MarvelApiProperties properties;
 
     @Bean
     public WebClient marvelClient(WebClient.Builder builder) {
         return builder
-                .baseUrl(appProperties.getBaseUrl())
+                .baseUrl(properties.baseUrl())
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .uriBuilderFactory(new DefaultUriBuilderFactory(uriComponentsBuilder()))
                 .build();
@@ -28,10 +28,10 @@ public class MarvelClientConfiguration {
     private UriComponentsBuilder uriComponentsBuilder() {
         final var timestamp = String.valueOf(System.currentTimeMillis());
         return UriComponentsBuilder
-                .fromHttpUrl(appProperties.getBaseUrl())
-                .queryParam("limit", appProperties.getPageLimit())
+                .fromHttpUrl(properties.baseUrl())
+                .queryParam("limit", properties.pageLimit())
                 .queryParam("ts", timestamp)
-                .queryParam("apikey", appProperties.getPublicKey())
-                .queryParam("hash", Md5Utils.hash(timestamp + appProperties.getPrivateKey() + appProperties.getPublicKey()));
+                .queryParam("apikey", properties.publicKey())
+                .queryParam("hash", Md5Utils.hash(timestamp + properties.privateKey() + properties.publicKey()));
     }
 }

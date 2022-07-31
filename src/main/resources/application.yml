@@ -6,7 +6,7 @@ spring:
   codec:
     max-in-memory-size: 1MB
 
-app:
+marvel-api:
   base-url: "https://gateway.marvel.com/v1/public"
   public-key: ${MARVEL_API_PUBLIC_KEY}
   private-key: ${MARVEL_API_PRIVATE_KEY}
