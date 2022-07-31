@@ -31,7 +31,6 @@
 - Ensure swagger output is correct
 - Unit tests
 - Tweak `spring.codec.max-in-memory-size` to a bit more than how much 100 rows of character info is
-- Some other stuff but I forgot
 - Research agile, scrum, DORA metrics
 
 ## Considerations
