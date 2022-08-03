@@ -27,7 +27,7 @@
 
 ### Add Marvel API keys to Gcloud Secret Manager
 1. Marvel Public Key: `echo -n "<your-public-key>" | gcloud secrets create marvel-api-public-key --data-file=-`
-2. Marvel Private Key `echo -n "<your-private-key>" | gcloud secrets create marvel-api-public-key --data-file=-`
+2. Marvel Private Key `echo -n "<your-private-key>" | gcloud secrets create marvel-api-private-key --data-file=-`
 
 ### Boot up local redis instance
 `docker compose up -d`.
